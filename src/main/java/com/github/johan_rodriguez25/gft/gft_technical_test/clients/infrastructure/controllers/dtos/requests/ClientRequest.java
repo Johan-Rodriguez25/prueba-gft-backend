@@ -2,8 +2,6 @@ package com.github.johan_rodriguez25.gft.gft_technical_test.clients.infrastructu
 
 import jakarta.validation.constraints.*;
 
-import java.math.BigDecimal;
-
 public record ClientRequest(
         @NotBlank(message = "El nombre completo no puede estar vacío.")
         String fullName,

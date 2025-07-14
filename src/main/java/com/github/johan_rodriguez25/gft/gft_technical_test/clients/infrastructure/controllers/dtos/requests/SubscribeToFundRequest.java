@@ -2,7 +2,6 @@ package com.github.johan_rodriguez25.gft.gft_technical_test.clients.infrastructu
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
