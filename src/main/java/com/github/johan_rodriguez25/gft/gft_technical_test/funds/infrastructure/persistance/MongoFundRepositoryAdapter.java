@@ -5,6 +5,7 @@ import com.github.johan_rodriguez25.gft.gft_technical_test.funds.domain.models.F
 import com.github.johan_rodriguez25.gft.gft_technical_test.funds.infrastructure.persistance.mappers.FundMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -36,5 +37,14 @@ public class MongoFundRepositoryAdapter implements FundRepositoryPort {
         );
 
         return Optional.of(fundMapper.toDomain(savedFundEntity));
+    }
+
+    @Override
+    public List<Fund> findAll() {
+        List<FundEntity> fundEntities = springDataFundRepository.findAll();
+
+        return fundEntities.stream()
+                .map(fundMapper::toDomain)
+                .toList();
     }
 }

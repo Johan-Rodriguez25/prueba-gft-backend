@@ -5,6 +5,9 @@ import com.github.johan_rodriguez25.gft.gft_technical_test.funds.infrastructure.
 import com.github.johan_rodriguez25.gft.gft_technical_test.funds.infrastructure.controllers.dtos.responses.FundResponse;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Component
 public class FundApiMapper {
     public Fund toDomain(FundRequest dto) {
@@ -23,5 +26,11 @@ public class FundApiMapper {
                 fund.minimumAmount(),
                 fund.category()
         );
+    }
+
+    public Iterable<FundResponse> toResponseDtos(Iterable<Fund> funds) {
+        return StreamSupport.stream(funds.spliterator(), false)
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
     }
 }

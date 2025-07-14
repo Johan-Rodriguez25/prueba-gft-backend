@@ -25,6 +25,7 @@ public class ClientController {
     private final SubscribeToFundUseCase subscribeToFundUseCase;
     private final CancelSubscriptionUseCase cancelSubscriptionUseCase;
     private final GetClientByEmailUseCase getClientByEmailUseCase;
+    private final GetCurrentClientUseCase getCurrentClientUseCase;
     private final ClientApiMapper clientApiMapper;
 
     public ClientController(
@@ -34,6 +35,7 @@ public class ClientController {
             SubscribeToFundUseCase subscribeToFundUseCase,
             CancelSubscriptionUseCase cancelSubscriptionUseCase,
             GetClientByEmailUseCase getClientByEmailUseCase,
+            GetCurrentClientUseCase getCurrentClientUseCase,
             ClientApiMapper clientApiMapper
     ) {
         this.createClientUseCase = createClientUseCase;
@@ -42,6 +44,7 @@ public class ClientController {
         this.subscribeToFundUseCase = subscribeToFundUseCase;
         this.cancelSubscriptionUseCase = cancelSubscriptionUseCase;
         this.getClientByEmailUseCase = getClientByEmailUseCase;
+        this.getCurrentClientUseCase = getCurrentClientUseCase;
         this.clientApiMapper = clientApiMapper;
     }
 
@@ -75,6 +78,12 @@ public class ClientController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<ClientResponse> getCurrentClient() {
+        Client client = getCurrentClientUseCase.getCurrentClient();
+        ClientResponse responseDto = clientApiMapper.toResponseDto(client);
+        return ResponseEntity.ok(responseDto);
+    }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ClientResponse> partialUpdateClient(

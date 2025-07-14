@@ -1,6 +1,7 @@
 package com.github.johan_rodriguez25.gft.gft_technical_test.funds.infrastructure.controllers;
 
 import com.github.johan_rodriguez25.gft.gft_technical_test.funds.application.ports.in.CreateFundUseCase;
+import com.github.johan_rodriguez25.gft.gft_technical_test.funds.application.ports.in.GetAllFunds;
 import com.github.johan_rodriguez25.gft.gft_technical_test.funds.application.ports.in.GetFundByIdUseCase;
 import com.github.johan_rodriguez25.gft.gft_technical_test.funds.domain.models.Fund;
 import com.github.johan_rodriguez25.gft.gft_technical_test.funds.infrastructure.controllers.dtos.FundApiMapper;
@@ -11,21 +12,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/funds")
 public class FundController {
     private final CreateFundUseCase createFundUseCase;
     private final GetFundByIdUseCase getFundByIdUseCase;
+    private final GetAllFunds getAllFunds;
     private final FundApiMapper fundApiMapper;
 
     public FundController(
             CreateFundUseCase createFundUseCase,
             GetFundByIdUseCase getFundByIdUseCase,
+            GetAllFunds getAllFunds,
             FundApiMapper fundApiMapper
     ) {
         this.createFundUseCase = createFundUseCase;
         this.getFundByIdUseCase = getFundByIdUseCase;
+        this.getAllFunds = getAllFunds;
         this.fundApiMapper = fundApiMapper;
     }
 
@@ -50,5 +55,12 @@ public class FundController {
         );
         FundResponse responseDto = fundApiMapper.toResponseDto(fund);
         return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Iterable<FundResponse>> getAllFunds() {
+        Iterable<Fund> funds = getAllFunds.findAllFunds();
+        Iterable<FundResponse> responseDtos = fundApiMapper.toResponseDtos(funds);
+        return ResponseEntity.ok(responseDtos);
     }
 }

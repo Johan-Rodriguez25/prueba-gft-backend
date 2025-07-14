@@ -30,7 +30,13 @@ public class SecurityConfig {
                                 "/swagger-ui/**"
                         )
                         .permitAll()
-                        .requestMatchers("/clients/subscribe", "/clients/cancelSubscription").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(
+                                "/clients/subscribe",
+                                "/clients/cancelSubscription",
+                                "/clients/me",
+                                "funds/all"
+                        )
+                        .hasAnyRole("USER", "ADMIN")
                         .anyRequest().hasRole("ADMIN")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
